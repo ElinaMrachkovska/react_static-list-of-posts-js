@@ -5,21 +5,23 @@ import commentsFromServer from './api/comments.json';
 import usersFromServer from './api/users.json';
 import { PostList } from './components/PostList/PostList';
 
-const getUserById = userId =>
-  usersFromServer.find(user => user.id === userId) || null;
+function getUserById(userId) {
+  return usersFromServer.find(user => user.id === userId) || null;
+}
 
-const getCommentsByPostId = postId =>
-  commentsFromServer.filter(comment => comment.postId === postId);
+function getCommentByPostId(id) {
+  return commentsFromServer.filter(comment => comment.postId === id);
+}
 
-export const preparedPosts = postsFromServer.map(post => ({
+export const posts = postsFromServer.map(post => ({
   ...post,
   user: getUserById(post.userId),
-  comments: getCommentsByPostId(post.id),
+  comments: getCommentByPostId(post.id),
 }));
 
 export const App = () => (
   <section className="App">
     <h1 className="App__title">Static list of posts</h1>
-    <PostList posts={preparedPosts} />
+    <PostList posts={posts} />
   </section>
 );
